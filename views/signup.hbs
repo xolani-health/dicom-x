@@ -1,0 +1,402 @@
+
+
+<!-- Body Content Start -->
+<main class="d-flex flex-column justify-content-start
+    align-items-center
+    overflow-auto pt-3" style="height: 100vh;">
+    <!-- DICOM-X Logo -->
+    <div class="col-1 d-flex dx-logo-wrapper align-items-center pt-2">
+        <a href="#" class="ripple">
+            <img src="/images/dicomx-logo-color.png"
+                alt="dicom-x"
+                class="img-fluid" />
+        </a>
+    </div>
+    <!-- DICOM-X Logo -->
+
+    <div class="w-100 d-flex justify-content-evenly flex-wrap">
+        <!-- Main Content Start -->
+        <div class="mt-4 pt-4 pb-4 pe-5 ps-5 border border-2 border-dark rounded-9
+            hover-shadow h-background fade-me-in">
+            <!-- Form Wrapper -->
+            <div class="tab-content">
+                <!-- Individual Signup Form -->
+                <div class="tab-pane fade active show overflow-auto"
+                    id="pills-individual"
+                    role="tabpanel"
+                    aria-labelledby="tab-individual">
+                    {{#if message.success}}
+                        <p class="alert small alert-success p-3">{{message.success}}</p>
+                    {{/if}}
+                    {{#if message.error}}
+                        <p class="alert small alert-danger p-3">{{message.error}}</p>
+                    {{/if}}
+                    <form action="/signup" method="POST" id="signup-individual"
+                        class="">
+                        <p class="lead text-white ps-2 pb-0 pt-0">Individual
+                            sign up</p>
+                            
+                        <div class="d-flex flex-column justify-content-between ">
+                            <div class="pt-0 d-flex justify-content-between w-100 flex-wrap">
+                                <!-- First Name input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="firstNameIdv">First name</label>
+                                    <input
+                                        type="text"
+                                        id="firstNameIdv"
+                                        name="firstNameIdv"
+                                        value="{{#if data.firstNameIdv}}{{data.firstNameIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.firstNameIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.firstNameIdv}}{{message.firstNameIdv}}{{else}}Fabian{{/if}}"
+                                        />
+                                        <span class="error-text firstname-error-text text-danger">{{#if message.firstNameIdv}}{{message.firstNameIdv}}{{/if}}</span>
+                                </div>
+                                <!-- First Name input -->
+
+                                <!-- Last Name input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="lastNameIdv">Last name</label>
+                                    <input
+                                        type="text"
+                                        id="lastNameIdv"
+                                        name="lastNameIdv"
+                                        value="{{#if data.lastNameIdv}}{{data.lastNameIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.lastNameIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.lastNameIdv}}{{message.lastNameIdv}}{{else}}Donald{{/if}}"
+                                        />
+                                        <span class="error-text lastname-error-text text-danger">{{#if message.lastNameIdv}}{{message.lastNameIdv}}{{/if}}</span>
+                                </div>
+                                <!-- Last Name input -->
+                            </div>
+
+                            <div class="pt-3 d-flex justify-content-between w-100 flex-wrap">
+                                <!-- Phone number input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="phoneNumberIdv">Phone number</label>
+                                    <input
+                                        type="tel"
+                                        id="phoneNumberIdv"
+                                        name="phoneNumberIdv"
+                                        value="{{#if data.phoneNumberIdv}}{{data.phoneNumberIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.phoneNumberIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.phoneNumberIdv}}{{message.phoneNumberIdv}}{{else}}+234 909766587{{/if}}"
+                                        />
+                                        <span class="error-text phonenumber-error-text text-danger">{{#if message.phoneNumberIdv}}{{message.phoneNumberIdv}}{{/if}}</span>
+                                </div>
+                                <!-- Phone number input -->
+
+                                <!-- Email input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="emailIdv">Email address</label>
+                                    <input
+                                        type="email"
+                                        id="emailIdv"
+                                        name="emailIdv"
+                                        value="{{#if data.emailIdv}}{{data.emailIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.emailIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.emailIdv}}{{message.emailIdv}}{{else}}johnsteven@mail.com{{/if}}"
+                                        />
+                                        <span class="error-text email-error-text text-danger">{{#if message.emailIdv}}{{message.emailIdv}}{{/if}}</span>
+                                        
+                                </div>
+                                <!-- Email input -->
+                            </div>
+
+                            <div class="pt-3 d-flex justify-content-start w-100 flex-wrap">
+                                <!-- Password input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="passwordIdv">Password</label>
+                                    <input
+                                        type="password"
+                                        id="passwordIdv"
+                                        name="passwordIdv"
+                                        value="{{#if data.passwordIdv}}{{data.passwordIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.passwordIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.passwordIdv}}{{message.passwordIdv}}{{else}}xxxxxxxxx{{/if}}"
+                                        />
+                                        <span class="error-text password-error-text text-wrap text-danger">{{#if message.passwordIdv}}{{message.passwordIdv}}{{/if}}</span>
+                                </div>
+                                <!-- Password input -->
+
+                                <!-- Confirm Password input -->
+                                <div class="form-group ps-2 pe-2 input-group-lg w-50" style="max-width: 50%;">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="cfmPasswordIdv">Confirm password</label>
+                                    <input
+                                        type="password"
+                                        id="cfmPasswordIdv"
+                                        name="cfmPasswordIdv"
+                                        value="{{#if data.cfmPasswordIdv}}{{data.cfmPasswordIdv}}{{/if}}"
+                                        class="form-control w-100
+                                        border-0 {{#if message.cfmPasswordIdv}}error-focus{{/if}}"
+                                        placeholder="{{#if message.cfmPasswordIdv}}{{message.cfmPasswordIdv}}{{else}}xxxxxxxxx{{/if}}"
+                                        class="form-control w-100
+                                        border-0"
+                                    />
+                                    <span class="error-text cfmpassword-error-text text-danger">{{#if message.cfmPasswordIdv}}{{message.cfmPasswordIdv}}{{/if}}</span>
+                                </div>
+                                <!-- Confirm Password input -->
+                            </div>
+                        </div>
+                        <div class="mb-4 pt-3 me-2 ms-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Checkbox -->
+                                <div class="form-check m-0">
+                                    <input
+                                        class="form-check-input me-2
+                                        border-dark"
+                                        type="checkbox"
+                                        value=""
+                                        id="loginCheckIdv"
+                                        name="loginCheckIdv"
+                                        checked
+                                        aria-describedby="registerCheckHelpText"
+                                        />
+                                    <label class="form-check-label small
+                                        text-muted"
+                                        for="loginCheckIdv">
+                                        I have read and agree to the
+                                        terms
+                                    </label>
+                                </div>
+                                <input type="hidden" name="idvFormType" id="idvFormType" value="idv-form">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-box
+                            btn-block mb-4">Sign up</button>
+                        <!-- Sign Page Button -->
+                        <div class="text-center text-muted">
+                            <p class="small p-0 m-0">Already a member?
+                                <a href="/">Sign in</a></p>
+                        </div>
+                    </form>
+                </div>
+                <!-- Individual Signup Form -->
+
+            </div>
+            <!-- Form Wrapper -->
+        </div>
+
+        <div class="mt-4 pt-4 pb-4 pe-5 ps-5 border border-2 border-dark rounded-9
+            hover-shadow h-background fade-me-in">
+        <!-- Form Wrapper -->
+            <div class="tab-content">
+
+                <!-- Business Signup Form -->
+                <div class="tab-pane fade active show overflow-auto"
+                    id="pills-business"
+                    role="tabpanel"
+                    aria-labelledby="tab-business">
+                    <form action="/signup" method="POST" id="signup-business"
+                        class="">
+                        <p class="lead text-white ps-2 pb-0 pt-0">Business
+                            sign up</p>
+                        <div class="d-flex flex-column justify-content-between ">
+                            <div class="pt-0 d-flex justify-content-between">
+                                <!-- First Name input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="firstNameBus">First name</label>
+                                    <input
+                                        type="text"
+                                        id="firstNameBus"
+                                        name="firstNameBus"
+                                        value="{{#if data.firstNameBus}}{{data.firstNameBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.firstNameBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.firstNameBus}}{{message.firstNameBus}}{{else}}Fabian{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.firstNameBus}}{{message.firstNameBus}}{{/if}}</span>
+                                </div>
+                                <!-- First Name input -->
+
+                                <!-- Last Name input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="lastNameBus">Last name</label>
+                                    <input
+                                        type="text"
+                                        id="lastNameBus"
+                                        name="lastNameBus"
+                                        value="{{#if data.lastNameBus}}{{data.lastNameBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.lastNameBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.lastNameBus}}{{message.lastNameBus}}{{else}}Donald{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.lastNameBus}}{{message.lastNameBus}}{{/if}}</span>
+                                </div>
+                                <!-- Last Name input -->
+                            </div>
+
+                            <div class="pt-3 d-flex
+                                justify-content-between">
+                                <!-- Phone number input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="phoneNumberBus">Phone number</label>
+                                    <input
+                                        type="tel"
+                                        id="phoneNumberBus"
+                                        name="phoneNumberBus"
+                                        value="{{#if data.phoneNumberBus}}{{data.phoneNumberBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.phoneNumberBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.phoneNumberBus}}{{message.phoneNumberBus}}{{else}}+234 909766587{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.phoneNumberBus}}{{message.phoneNumberBus}}{{/if}}</span>
+                                </div>
+                                <!-- Phone number input -->
+
+                                <!-- Email input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="emailBus">Email address</label>
+                                    <input
+                                        type="email"
+                                        id="emailBus"
+                                        name="emailBus"
+                                        value="{{#if data.emailBus}}{{data.emailBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.emailBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.emailBus}}{{message.emailBus}}{{else}}johnsteven@mail.com{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.emailBus}}{{message.emailBus}}{{/if}}</span>
+                                </div>
+                                <!-- Email input -->
+                            </div>
+
+                            <div class="pt-3 d-flex
+                                justify-content-between">
+                                <!-- Institution input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="institution">Institution name</label>
+                                    <input
+                                        type="text"
+                                        id="institution"
+                                        name="institution"
+                                        value="{{#if data.institution}}{{data.institution}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.institution}}error-focus{{/if}}"
+                                        placeholder="{{#if message.institution}}{{message.institution}}{{else}}XYZ Healthcare{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.institution}}{{message.institution}}{{/if}}</span>
+                                </div>
+                                <!-- Institution input -->
+
+                                <!-- Password input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="passwordBus">Password</label>
+                                    <input
+                                        type="password"
+                                        id="passwordBus"
+                                        name="passwordBus"
+                                        value="{{#if data.passwordBus}}{{data.passwordBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.passwordBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.passwordBus}}{{message.passwordBus}}{{else}}xxxxxxx{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.passwordBus}}{{message.passwordBus}}{{/if}}</span>
+                                </div>
+                                <!-- Password input -->
+                            </div>
+                            <div class="pt-3 d-flex justify-content-between">
+                                <!-- Confirm Password input -->
+                                <div class="form-group ps-2 pe-2
+                                    input-group-lg">
+                                    <label class="form-label small
+                                        text-muted m-0"
+                                        for="cfmPasswordBus">Confirm password</label>
+                                    <input
+                                        type="password"
+                                        id="cfmPasswordBus"
+                                        name="cfmPasswordBus"
+                                        value="{{#if data.cfmPasswordBus}}{{data.cfmPasswordBus}}{{/if}}"
+                                        class="form-control w-100 border-0 {{#if message.cfmPasswordBus}}error-focus{{/if}}"
+                                        placeholder="{{#if message.cfmPasswordBus}}{{message.cfmPasswordBus}}{{else}}xxxxxxx{{/if}}"
+                                        />
+                                        <span class="error-text text-danger">{{#if message.cfmPasswordBus}}{{message.cfmPasswordBus}}{{/if}}</span>
+                                </div>
+                                <!-- Confirm Password input -->
+                            </div>
+                        </div>
+                        <div class="mb-4 pt-3 me-2 ms-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Checkbox -->
+                                <div class="form-check m-0">
+                                    <input
+                                        class="form-check-input me-2
+                                        border-dark"
+                                        type="checkbox"
+                                        value=""
+                                        id="loginCheckBus"
+                                        name="loginCheckBus"
+                                        checked
+                                        aria-describedby="registerCheckHelpText"
+                                        />
+                                    <label class="form-check-label small
+                                        text-muted"
+                                        for="loginCheckBus">
+                                        I have read and agree to the
+                                        terms
+                                    </label>
+                                </div>
+                                <input type="hidden" name="busFormType" id="busFormType" value="bus-form">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-box
+                            btn-block mb-4">Sign up</button>
+                        <!-- Sign Page Button -->
+                        <div class="text-center text-muted">
+                            <p class="small p-0 m-0">Already a member?
+                                <a href="/">Sign in</a></p>
+                        </div>
+                    </form>
+                </div>
+                <!-- Business Signup Form -->
+
+            </div>
+        <!-- Form Wrapper -->
+        </div>
+    </div>
+
+
+
+    <!-- Copyright Text -->
+    <p class="text-muted small pt-4">Copyright
+        © 2022 Xolani Health.
+        All
+        rights
+        reserved.</p>
+    <!-- Copyright Text -->
+
+</main>
+<!-- Body Content End -->
+

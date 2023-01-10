@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>DICOM-X</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- Google Material icon -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- MDB -->
+  <link rel="stylesheet" href="css/mdb.min.css" />
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/custom-styles.css" />
+
+  <!-- include the hammer.js library for touch gestures-->
+  <script src="https://unpkg.com/hammerjs@2.0.8/hammer.js"></script>
+  <script src="https://unpkg.com/dicom-parser@1.8.3/dist/dicomParser.min.js"></script>
+  <!-- include the cornerstone library -->
+  <script src="https://unpkg.com/cornerstone-core"></script>
+  <script src="https://unpkg.com/cornerstone-math"></script>
+  <script src="https://unpkg.com/cornerstone-wado-image-loader"></script>
+  <script
+    src="https://unpkg.com/cornerstone-wado-image-loader@4.1.3/dist/cornerstoneWADOImageLoader.bundle.min.js"></script>
+  <!-- Why we're all here ;) -->
+  <script src="https://unpkg.com/cornerstone-tools@%5E4"></script>
+</head>
+
+<body>
+  <!-- Start your project here-->
+  <div class="container-fluid d-flex flex-column h-100 p-0 border">
+    <!-- Header Start -->
+    <header class="d-flex p-1 h-background">
+
+      <!-- dicom-x logo start here -->
+      <div class="col-2 col-md-2 dx-logo-wrapper">
+        <img src="../public/assets/images/dicomx-logo-color.png" alt="dicom-x" class="img-fluid" />
+      </div>
+      <!-- dicom-x logo end here -->
+
+      <!-- buttons for cornerstone tools starts here -->
+      <div class="col d-flex justify-content-center" style="overflow-y: visible; overflow-x:auto;">
+        <div class="d-flex justify-content-center dx-tool-wrapper" aria-label="Button
+            group with nested dropdown">
+          <!-- Magnify tool starts here -->
+          <button title="Magnify" class="btn m-1 btn-bottom" id="magnify" onclick="addCsTool('Magnify')">
+            <span class="material-icons">
+              loupe
+            </span>
+          </button>
+          <!-- Magnify tool ends here -->
+
+          <!-- Zoom tool starts here -->
+          <button title="Zoom" class="btn m-1 btn-bottom" id="zoom" onclick="addCsTool('Zoom')">
+            <span class="material-icons">
+              zoom_in
+            </span>
+          </button>
+          <!-- Zoom tool ends here -->
+
+          <!-- EllipticalRoi tool starts here -->
+          <button title="Ellipse" class="btn m-1 btn-bottom" id="ellipse" onclick="addCsTool('EllipticalRoi')">
+            <span class="material-icons">all_out</span>
+          </button>
+          <!-- EllipticalRoi tool ends here -->
+
+          <!-- This TextMarker starts here -->
+          <button title="Text" class="btn m-1 btn-bottom" id="text" onclick="addTextTool('TextMarker')">
+            <span class="material-icons">edit_note</span>
+          </button>
+          <!-- This TextMarker ends here -->
+
+          <!-- This Rotate starts here -->
+          <button title="Rotate" class="btn m-1 btn-bottom" id="rotate" onclick="addCsTool('Rotate')">
+            <span class="material-icons">
+              rotate_90_degrees_cw
+            </span>
+          </button>
+          <!-- This Rotate ends here -->
+
+          <!-- This tool starts here -->
+          <button title="Pan" class="btn m-1 btn-bottom" id="pan" onclick="addCsTool('Pan')">
+            <span class="material-icons">
+              open_with
+            </span>
+          </button>
+          <!-- This tool ends here -->
+
+          <!-- Angle tool starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons">square_foot</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="Angle" class="dropdown-item
+                            text-sm" href="#" id="Angle" onclick="addCsTool('Angle')">
+                  <span class="material-icons">
+                    chevron_left </span> Angle
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Cobb Angle" class="dropdown-item" href="#" id="CobbAngle" onclick="addCsTool('CobbAngle')">
+                  <span class="material-icons">
+                    ssid_chart </span>
+                  Cobb Angle</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Angle tool ends here -->
+
+          <!-- FreehandRoi tool starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons"> polyline
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="Freehand" class="dropdown-item" href="#" id="FreehandRoi" onclick="addCsTool('FreehandRoi')">
+                  <span class="material-icons">gesture</span>
+                  Freehand
+                </a>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Elliptical Roi" class="dropdown-item" href="#" id="EllipticalRoi"
+                  onclick="addCsTool('EllipticalRoi')">
+                  <span class="material-icons">radio_button_unchecked</span>
+                  Elliptical Roi</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Rectangular Roi" class="dropdown-item" href="#" id="RectangleRoi"
+                  onclick="addCsTool('RectangleRoi')">
+                  <span class="material-icons">
+                    check_box_outline_blank
+                  </span>
+                  Rectangular Roi</a>
+              </li>
+            </ul>
+          </div>
+          <!-- FreehandRoi tool ends here -->
+
+          <!-- This ArrowAnnotate starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons">
+                settings_ethernet </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="Arrow Annotate" class="dropdown-item" href="#" id="ww-wc"
+                  onclick="addCsTool('ArrowAnnotate')">
+                  <span class="material-icons">
+                    arrow_right_alt </span>Arrow
+                  annotate
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Length Tool" class="dropdown-item" href="#" id="ww-wc" onclick="addCsTool('Length')"><span
+                    class="material-icons">straighten</span>
+                  Length</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Bidirectional Tool" class="dropdown-item" href="#" id="Bidirectional"
+                  onclick="addCsTool('Bidirectional')">
+                  <span class="material-icons">
+                    grid_goldenratio </span>
+                  Bidirectional</a>
+              </li>
+            </ul>
+          </div>
+          <!-- This ArrowAnnotate ends here -->
+
+          <!-- This Probe starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons">
+                radio_button_checked </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="Probe" class="dropdown-item" href="#" id="Probe" onclick="addCsTool('Probe')">
+                  <span class="material-icons"> adjust
+                  </span> Probe</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+
+              <li>
+                <a title="Drag Probe" class="dropdown-item" href="#" id="DragProbe" onclick="addCsTool('DragProbe')">
+                  <span class="material-icons"> adjust
+                  </span> Drag Probe</a>
+              </li>
+            </ul>
+          </div>
+          <!-- This Probe ends here -->
+
+          <!-- Window level tool starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons">
+                invert_colors
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="ww/wc" class="dropdown-item" href="#" id="ww-wc" onclick="addCsTool('Wwwc')">
+                  <span class="material-icons">
+                    invert_colors
+                  </span> WWWC</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="WWWC Region" class="dropdown-item" href="#" id="ww-wc" onclick="addCsTool('WwwcRegion')">
+                  <span class="material-icons">
+                    check_box_outline_blank
+                  </span> WWWC
+                  Region</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Window level tool ends here -->
+
+          <!-- Segmentation tool starts here -->
+          <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn
+                    dropdown-toggle btn-bottom" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-icons"> highlight_alt
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+              <li>
+                <a title="Freehand Scissors" class="dropdown-item" href="#" id="FreehandScissors"
+                  onclick="addCsTool('FreehandScissors')">
+                  <span class="material-icons">
+                    content_cut </span> Freehand
+                  Scissors
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Circle Scissors" class="dropdown-item" href="#" id="CircleScissors"
+                  onclick="addCsTool('CircleScissors')">
+                  <span class="material-icons">
+                    join_full </span>
+                  Circle Scissors</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a title="Rectangle Scissors" class="dropdown-item" href="#" id="RectangleScissors"
+                  onclick="addCsTool('RectangleScissors')">
+                  <span class="material-icons">
+                    rectangle </span>
+                  Rectangle Scissors</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Segmentation tool ends here -->
+
+          <!-- Reset tool starts here -->
+          <button title="Reset" class="btn m-1 btn-bottom" id="reset" onclick="addCsTool('Reset')">
+            <span class="material-icons">restart_alt</span>
+          </button>
+          <!-- Reset tool ends here -->
+
+          <!--  Toggle-mask button starts here -->
+          <button title="Hide/Show Mask" class="btn m-1
+                btn-bottom" id="toggle-mask" onclick="toggleHide('eye-on', 'eye-off', '')">
+            <span class="material-icons" id="eye-on">
+              visibility </span>
+            <span class="material-icons hide" id="eye-off">
+              visibility_off
+            </span>
+          </button>
+          <!-- Toggle-mask button ends here -->
+
+          <!-- Fullscreen tool starts here -->
+          <button title="Fullscreen" class="btn m-1
+                btn-bottom" onclick="openFullscreen()">
+            <span class="material-icons">
+              fullscreen
+            </span>
+          </button>
+          <!-- Fullscreen tool ends here -->
+
+          <!-- Help button starts here -->
+          <button title="Help" class="btn m-1 btn-bottom" data-bs-toggle="modal" data-bs-target="#help">
+            <span class="material-icons">help_outline</span>
+          </button>
+          <!-- Help button ends here -->
+        </div>
+      </div>
+      <!-- buttons for cornerstone tools ends here -->
+
+    </header>
+    <!-- Header End -->
+
+    <!-- Body Content Start -->
+    <main class="d-flex flex-column h-100">
+
+      <!-- Main Content Start -->
+
+      <div class="d-flex flex-grow-1">
+        <!-- Sidebar Start -->
+        <div class="col-2 overflow-auto">
+          <!--Choose file Start -->
+          <div class="p-1 mt-2">
+            <form id="form" method="POST" enctype="multipart/form-data">
+              <div class="d-flex justify-content-center">
+                <label class="btn center-block text-white" for="selectFile">
+                  <span class="glyphicon
+                    glyphicon-cloud-upload"></span>&nbsp;Choose
+                  File
+                </label>
+                <input id="selectFile" type="file" accept=".dcm" name="fileToUpload" hidden />
+              </div>
+            </form>
+          </div>
+          <!--Choose file End -->
+
+          <!-- AI Analysis Start -->
+          <div class="p-1 mt-1">
+            <div class="accordion accordion-flush" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button
+                    collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                    aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    AI Analysis
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse
+                collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                    <select class="form-select
+                        form-select-sm" aria-label=".form-select-sm">
+                      <option class="options" selected>
+                        Select Modality
+                      </option>
+                      <option class="options" value="Chest">
+                        Chest - Xray
+                      </option>
+                      <option class="options" value="brain">
+                        Brain - CT
+                      </option>
+                    </select>
+                    <div class="d-grid gap-2">
+                      <button class="btn-sm mt-3" type="button">
+                        Load AI
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- AI Analysis End -->
+
+          <!-- Collaborative Radiology Start -->
+          <div class="p-1 mt-1">
+            <div class="accordion" id="accordionPanelsStayOpenExample" style="box-shadow: none; border: none; outline:
+        none">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button
+                    collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                    aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Collaborative Radiology
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse
+                collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body d-flex
+                    flex-column">
+
+                    <!-- Screen Share Start -->
+                    <div class="d-flex flex-column
+                        w-100">
+                      <!-- Start Share Button -->
+                      <span class="mt-2" id="start-share">
+                        <button title="Start" class="btn btn-block
+                                w-100" onclick="startShare()">
+                          Share Screen
+                        </button>
+                      </span>
+                      <!-- End Share Button -->
+
+                      <!-- Stop Share Button Start-->
+                      <span class="mt-2 d-none" id="stop-share">
+                        <button title="Stop" class="btn btn-block
+                                w-100" onclick="stopShare()">
+                          Stop Share
+                        </button>
+                      </span>
+                      <!-- Stop Share Button End-->
+                      <!-- Annotated Screen Share Button -->
+                      <span class="mt-2 d-none" id="screen-share">
+                        <button title="Send Sreen
+                                Shot" class="btn
+                                btn-block
+                                w-100" id="screen-share-btn" onclick="shareShots()">
+                          Send Screenshots
+                        </button>
+                      </span>
+                      <!-- Annotated Screen Share Button End -->
+                      <!-- Copy Code Button Start-->
+                      <span class="d-none d-flex
+                            flex-column mt-3" id="copy-btn-wrapper">
+                        <input type="text" id="code" readonly />
+                        <span class="mt-1 mx-auto">
+                          <button title="Copy
+                                    Code" class="btn" id="copyBtn" onclick="copyText()">
+                            Copy code
+                          </button>
+                        </span>
+                      </span>
+                      <!-- Copy Code Button End-->
+                      <!-- Timer text Start-->
+                      <span class="d-flex flex-column
+                            mt-3 d-none" id="count-down-wrapper">
+                        <span class="text-white
+                                text-center text-sm">
+                          Time Left: <p id="countDwn" class="text-center" style="color:#fff;">
+                            00:00</p>
+                        </span>
+                      </span>
+                      <!-- Timer text End-->
+
+                      <!-- Screen Share Button -->
+                      <span class="mt-2" id="view-screen">
+                        <a href="http://localhost:4000" target="_blank">
+                          <button title="View
+                                    display page" class="btn
+                                    btn-block w-100" id="display-btn">
+                            View Screen
+                          </button>
+                        </a>
+                      </span>
+                      <!-- End Screen Share Button -->
+                    </div>
+                    <!-- Screen Share End -->
+
+                    <!-- Video Call Wrapper Start -->
+                    <div class="d-flex flex-column w-100
+                        mt-2">
+                      <!-- Start Video Call Button -->
+                      <span class="">
+                        <button title="Start video
+                                call" class="btn w-100" id="start-video" onclick="toggle('join-call')">
+                          Start Video Call
+                        </button>
+                      </span>
+                      <!-- End Video Call Button -->
+                      <!-- Join Video Call Button Start -->
+                      <span class="mt-2">
+                        <button title="Join video
+                                call" class="btn w-100" id="join-call" onclick="toggle('start-video')">
+                          Join Video Call
+                        </button>
+                      </span>
+                      <!-- Join Video Call Button End -->
+                      <!-- Start video call Section -->
+                      <div id="video-section" class="d-none" data-state="false">
+                        <!-- Input Username Start -->
+                        <div class="input-group
+                                input-group-sm
+                                flex-nowrap
+                                mt-3">
+                          <span class="input-group-text" id="addon-wrapping">@</span>
+                          <input type="text" class="form-control
+                                    chats" id="username-input" placeholder="Enter
+                                    username..." aria-label="chats" aria-describedby="addon-wrapping" />
+                        </div>
+                        <!-- Input Username End -->
+                        <!-- Send & Start Call Button -->
+                        <div class="d-flex
+                                justify-content-center
+                                align-items-center">
+                          <span class="w-100">
+                            <button title="Send
+                                        Message" class="btn mt-3
+                                        w-100" id="send" onclick="sendUsername()">
+                              Send
+                            </button>
+                          </span>
+                          <span class="w-100">
+                            <button title="Start
+                                        Call" class="btn
+                                        mt-3 w-100" id="start-call" onclick="startCall()">
+                              Start Call
+                            </button>
+                          </span>
+                        </div>
+                        <!-- Send & Start Call Button End-->
+                      </div>
+                      <!-- Start video call Section End -->
+                      <!-- Join call Section Start -->
+                      <div id="join-call-section" class="d-none" data-state="false">
+                        <!-- Input Username Start -->
+                        <div class="input-group
+                                input-group-sm
+                                flex-nowrap
+                                mt-3">
+                          <span class="input-group-text" id="addon-wrapping">@</span>
+                          <input type="text" class="form-control
+                                    chats" id="username-input-join" placeholder="Enter
+                                    username..." aria-label="chats" aria-describedby="addon-wrapping" />
+                        </div>
+                        <!-- Input Username End -->
+                        <!-- Send & Start Call Button -->
+                        <div class="d-flex
+                                justify-content-center
+                                align-items-center">
+                          <span class="w-100">
+                            <button title="Join
+                                        Now" class="btn
+                                        mt-3 w-100" id="join-call" onclick="joinCall()">
+                              Join Now
+                            </button>
+                          </span>
+                        </div>
+                        <!-- Send & Start Call Button End-->
+                      </div>
+                      <!-- Join call Section End -->
+                      <!-- Video Display Wrapper Start-->
+                      <div class="video-box mt-1 hide" id="video-call-div">
+                        <div class="video-wrapper">
+                          <div class="local-video">
+                            <video muted id="local-video" class="" autoplay></video>
+                          </div>
+                          <div class="remote-video">
+                            <video id="remote-video" autoplay></video>
+                          </div>
+                        </div>
+
+                        <!-- Video Controls Start -->
+                        <div class="d-flex
+                                justify-content-center
+                                mt-2">
+                          <button class="btn m-1
+                                    btn-bottom" type="button" onclick="singletoggleHide('icn-mic_none',
+                                    'icn-mic_off')">
+                            <span class="material-icons" id="icn-mic_none">
+                              mic_none
+                            </span>
+                            <span class="material-icons
+                                        hide" id="icn-mic_off">
+                              mic_off
+                            </span>
+                          </button>
+                          <button class="btn m-1
+                                    btn-bottom" type="button" onclick="singletoggleHide('icn-videocam',
+                                    'icn-videocam_off')">
+                            <span class="material-icons" id="icn-videocam">
+                              videocam
+                            </span>
+                            <span class="material-icons
+                                        hide" id="icn-videocam_off">
+                              videocam_off
+                            </span>
+                          </button>
+                          <button class="btn m-1
+                                    btn-bottom" type="button" onclick="toggleHide('chat',
+                                    'chat-off',
+                                    'chat-wrapper')">
+                            <span class="material-icons" id="chat">
+                              chat
+                            </span>
+                            <span class="material-icons
+                                        hide" id="chat-off">
+                              comments_disabled
+                            </span>
+                          </button>
+                        </div>
+                        <!-- Video Controls End -->
+                      </div>
+                      <!-- Video Display Wrapper End -->
+                    </div>
+                    <!-- Video Call Wrapper End -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Collaborative Radiology End -->
+
+        </div>
+        <!-- Sidebar End -->
+
+        <!-- Canvas Area Start -->
+        <div class="col-8 p-1 d-flex flex-column align-items-stretch">
+          <div class="rounded h-100" style="background-color: black; position:relative;">
+
+            <!-- Image Data Start -->
+            <div class="d-flex flex-column justify-content-between h-100
+                        p-3
+                        d-none" id="image-data" style="font-size: 0.7rem;
+                        position:
+                        absolute;">
+              <span class="text-white">
+                <p id="p-name" class="p-0 m-0">Jonathan G.</p>
+                <p id="p-id" class="p-0 m-0">556342B</p>
+                <p id="p-dob" class="p-0 m-0">25-October-1994</p>
+                <p id="p-sex" class="p-0 m-0">M</p>
+              </span>
+              <span class="text-white">
+                <p id="sd-modality" class="p-0 m-0">XA</p>
+              </span>
+
+            </div>
+            <div class="d-flex flex-column justify-content-between h-100
+                        p-3
+                        d-none" id="image-data2" style="font-size: 0.7rem;
+                        position:
+                        absolute; right: 0;">
+              <span class="text-white">
+                <p id="sd-date" class="p-0 m-0">25-October-1994</p>
+                <p id="sd-date" class="p-0 m-0">14:19:17</p>
+              </span>
+              <span class="text-white">
+                <p id="" class="p-0 m-0">WL: 128</p>
+              </span>
+            </div>
+            <!-- Image Data End -->
+
+            <!-- Cornerstone Canvas Element Start -->
+            <div id="cornerstone-element" class="" data-index="0" oncontextmenu="return false">
+            </div>
+            <!-- Cornerstone Canvas Element End -->
+          </div>
+        </div>
+        <!-- Canvas Area End -->
+
+        <!-- Dicom Image Data Start -->
+        <div class="col-2">
+          <div class="col d-flex flex-column">
+            <div class="p-3 d-none" style="font-size: 0.8rem;" id="meta-data">
+              <!-- Patient Info Start -->
+              <span class="patient-info">
+                <span class="text-white d-flex
+justify-content-between">
+                  Patient Name: <p id="p-name" class="p-0 m-0">Jonathan
+                    G.</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient ID: <p id="p-id" class="p-0 m-0">556342B</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient Birth Date: <p id="p-dob" class="p-0
+m-0">25-October-1994</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient Sex: <p id="p-sex" class="p-0 m-0">M</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient Age: <p id="p-age" class="p-0 m-0">28</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient Weight: <p id="p-weight" class="p-0
+m-0"></p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Patient Address: <p id="p-address" class="p-0
+m-0"></p>
+                </span>
+              </span>
+              <!-- Patient Info End -->
+
+              <hr>
+              <!-- Study Info Start -->
+              <span class="study-info">
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Study Date: <p id="sd-date" class="p-0 m-0">25-October-1994</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Study Time: <p id="sd-time" class="p-0 m-0">14:19:17</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Study ID: <p id="sd-id" class="p-0 m-0"></p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Study Modality: <p id="sd-modality" class="p-0
+m-0">XA</p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Study Description: <p id="sd-description" class="p-0 m-0"></p>
+                </span>
+              </span>
+              <!-- Study Info End -->
+
+              <hr>
+              <!-- Series Info Start -->
+              <span class="series-info">
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Series Date: <p id="sr-date" class="p-0 m-0"></p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Series Time: <p id="sr-time" class="p-0 m-0"></p>
+                </span>
+
+                <span class="text-white d-flex
+justify-content-between mt-2">
+                  Series Description: <p id="sr-description" class="p-0 m-0"></p>
+                </span>
+              </span>
+              <!-- Series Info End -->
+            </div>
+          </div>
+        </div>
+        <!-- Dicom Image Data End -->
+
+      </div>
+
+      <!-- Main Content End -->
+
+      <!-- Bottom Navigation Start -->
+      <div class="h-background">
+        <!-- buttons for cornerstone tools starts here -->
+        <div class="col d-flex justify-content-center scroll-bar overflow-auto">
+          <div class="d-flex justify-content-center dx-tool-wrapper" aria-label="Button
+            group with nested dropdown">
+
+            <!-- Start Video Call Button -->
+            <button title="Start Call" class="btn btn-block m-1" id="magnify" onclick="">
+              <span class="material-icons">
+                call
+              </span> Start Call
+            </button>
+            <!--Start Video Call Button -->
+
+            <!-- End Video Call Button -->
+            <button title="End Call" class="btn btn-block m-1" id="magnify" onclick="">
+              <span class="material-icons">
+                call
+              </span> End Call
+            </button>
+            <!--End Video Call Button -->
+
+          </div>
+        </div>
+        <!-- buttons for cornerstone tools ends here -->
+      </div>
+      <!-- Bottom Navigation End -->
+
+    </main>
+    <!-- Body Content End -->
+
+    <!-- Help Modal Start -->
+    <div class="modal fade" id="help" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content dropdown-menu-dark">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              DICOM-X SHORTCUTS
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="create-wrapper container-fluid">
+              <div class="thumbnail col-sm-12">
+                <legend class="text-md">Mouse Pad</legend>
+                <table class="table table-dark">
+                  <tbody>
+                    <tr>
+                      <td>Left click + mouse drag</td>
+                      <td>Move image</td>
+                    </tr>
+                    <tr>
+                      <td>Right click + mouse drag</td>
+                      <td>Pan and Zoom</td>
+                    </tr>
+                    <tr>
+                      <td>Mouse wheel</td>
+                      <td>Zoom in/out</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <hr>
+            <legend class="text-md">Keyboard</legend>
+            <table class="table table-dark">
+              <tbody>
+                <tr>
+                  <td>CTRL + </td>
+                  <td>Move image</td>
+                </tr>
+                <tr>
+                  <td>CTRL + </td>
+                  <td>Pan and Zoom</td>
+                </tr>
+                <tr>
+                  <td>CTRL + </td>
+                  <td>Zoom in/out</td>
+                </tr>
+              </tbody>
+            </table> -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-sm" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Help Modal End -->
+  </div>
+  <!-- End your project here-->
+
+  <!-- MDB -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Custom scripts Start-->
+  <script type="text/javascript"></script>
+  <script src="./sender.js"></script>
+  <script src="./reciever.js"></script>
+  <script src="./index.js"></script>
+  <script src="./js/custom-js.js"></script>
+  <script src="./js/jquery-3.6.0.min.js"></script>
+  <!-- Custom scripts End -->
+</body>
+
+</html>

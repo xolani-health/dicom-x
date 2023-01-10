@@ -1,0 +1,145 @@
+
+
+<!-- Screen Share Start -->
+<div class="d-flex flex-column
+    w-100 d-none">
+    <!-- Start Share Button -->
+    <span class="mt-2" id="start-share">
+        <button title="Start" class="btn btn-block
+            w-100" onclick="startShare()">
+            Share Screen
+        </button>
+    </span>
+    <!-- End Share Button -->
+
+    <!-- Stop Share Button Start-->
+    <span class="mt-2 d-none" id="stop-share">
+        <button title="Stop" class="btn btn-block
+            w-100" onclick="stopShare()">
+            Stop Share
+        </button>
+    </span>
+    <!-- Stop Share Button End-->
+    <!-- Annotated Screen Share Button -->
+    <span class="mt-2 d-none" id="screen-share">
+        <button title="Send Sreen
+            Shot" class="btn
+            btn-block
+            w-100" id="screen-share-btn" onclick="shareShots()">
+            Send Screenshots
+        </button>
+    </span>
+    <!-- Annotated Screen Share Button End -->
+    <!-- Copy Code Button Start-->
+    <span class="d-none d-flex
+        flex-column mt-3" id="copy-btn-wrapper">
+        <input type="text" id="code" readonly />
+        <span class="mt-1 mx-auto">
+            <button title="Copy
+                Code" class="btn" id="copyBtn"
+                onclick="copyText()">
+                Copy code
+            </button>
+        </span>
+    </span>
+    <!-- Copy Code Button End-->
+    <!-- Timer text Start-->
+    <span class="d-flex flex-column
+        mt-3 d-none" id="count-down-wrapper">
+        <span class="text-white
+            text-center text-sm">
+            Time Left: <p id="countDwn" class="text-center"
+                style="color:#fff;">
+                00:00</p>
+        </span>
+    </span>
+    <!-- Timer text End-->
+
+    <!-- Screen Share Button -->
+    <span class="mt-2" id="view-screen">
+        <a href="http://localhost:4000" target="_blank">
+            <button title="View
+                display page" class="btn
+                btn-block w-100" id="display-btn">
+                View Screen
+            </button>
+        </a>
+    </span>
+    <!-- End Screen Share Button -->
+</div>
+<!-- Screen Share End -->
+
+<!-- Download button -->
+<button
+    type="button"
+    class="btn btn-sm btn-box d-flex send-file-btn
+    align-items-center justify-content-between mt-4">
+    Download
+    <span class="material-icons small ps-2">
+        file_download
+    </span>
+</button>
+
+<!-- File Received Start Here -->
+<div class="d-flex justify-content-start flex-row
+    align-items-center border-dark border-bottom border-2
+    mt-2 w-100 cursor">
+    <div class="m-0 pt-2 pb-0 ps-2 pe-3">
+        <span class="material-icons">
+            description
+        </span>
+    </div>
+    <h6 class="p-0 m-0 text-trucate fw-bold text-muted">File.png
+    </h6><span
+        class="small
+        text-trucate text-muted ps-2">sent from
+        prince
+        Oluwatobi
+        sunday</span>
+</div>
+<!-- File Received Ends Here -->
+
+<div class="border p-5 border border-2 border-dark rounded-9 h-background">
+    <!-- Pills navs -->
+    <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a
+                class="nav-link active"
+                id="tab-login"
+                data-mdb-toggle="pill"
+                href="#pills-login"
+                role="tab"
+                aria-controls="pills-login"
+                aria-selected="true">Individual</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a
+                class="nav-link"
+                id="tab-register"
+                data-mdb-toggle="pill"
+                href="#pills-register"
+                role="tab"
+                aria-controls="pills-register"
+                aria-selected="false">Business</a>
+        </li>
+    </ul>
+    <!-- Pills navs -->
+
+</div>
+
+<div class="d-flex justify-content-start align-items-center participants
+    border-2 border-dark border-bottom">
+    <a class="p-1">
+        <img class="rounded-5
+            shadow-4" src="https://mdbootstrap.com/img/Photos/Avatars/man2.jpg"
+            alt="Avatar" style="width: 30px; height: 30px;">
+        <span class="badge bg-success badge-dot"></span>
+    </a>
+    <h6 class="p-1 m-0 user-name
+        text-white ms-2 fw-normal small text-truncate"></h6>
+    <div class="d-flex flex-fill justify-content-end">
+        <button type="button" class="btn border-0 p-0">
+            <span class="material-icons"> more_vert </span>
+        </button>
+    </div>
+</div>

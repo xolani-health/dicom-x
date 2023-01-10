@@ -1,0 +1,1586 @@
+
+<!-- Start your project here-->
+<div class="container-fluid d-flex flex-column h-100 p-0">
+
+  <!-- Header Start -->
+  <header class="d-flex flex-nowrap justify-content-between ps-1 pe-1 position-relative">
+    <!-- dicom-x logo start here -->
+    <div class="col-sm-hidden col-md-2 col-lg-2 dx-logo-wrapper d-flex align-items-center">
+      <a href="#">
+        <img src="/images/dicomx-logo-color.png"
+          alt="dicom-x"
+          class="img-fluid" />
+      </a>
+    </div>
+    <!-- dicom-x logo end here -->
+
+    <!-- dicom-x cornerstone button start here -->
+    <div class="header-nav position-relative p-1 d-flex flex-nowrap justify-content-around"></div>
+    <!-- dicom-x cornerstone button ends here -->
+
+    <div class="position-relative p-1 d-flex flex-nowrap justify-content-around">
+      <!--  Toggle-mask button starts here -->
+      <button title="Hide/Show Mask" class="border-0 d-none" id="toggle-mask" onclick="toggleHide('eye-on-mask',
+        'eye-off-mask', 'output-mask-wrapper')">
+        <span class="material-icons" id="eye-on-mask">
+          visibility </span>
+        <span class="material-icons hide" id="eye-off-mask">
+          visibility_off
+        </span>
+      </button>
+      <!-- Toggle-mask button ends here -->
+
+      <!-- Fullscreen tool starts here -->
+      <button title="Fullscreen" class="border-0" onclick="openFullscreen()">
+        <span class="material-icons">
+          fullscreen
+        </span>
+      </button>
+      <!-- Fullscreen tool ends here -->
+
+      <!-- Help button starts here -->
+      <button
+        class="border-0"
+        data-mdb-toggle="modal"
+        data-mdb-target="#help-modal"
+        id="help"
+        title="Help"
+        type="button">
+        <span class="material-icons">help_outline</span>
+      </button>
+      <!-- Help button ends here -->
+
+      <!-- Profile starts here -->
+      <div class="dropdown">
+        <button
+          class="dx-border border-2 border-rounded dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton4"
+          data-mdb-toggle="dropdown"
+          aria-expanded="false">
+          <span class="material-icons">
+            account_circle </span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark"
+          aria-labelledby="dropdownMenuButton4">
+          <li>
+            <a title="Logout" class="dropdown-item d-flex align-items-center" href="/logout">
+              <span class="material-icons pe-2"> logout
+              </span> Logout
+            </a>
+          </li>
+
+          <li>
+            <a
+              title="My profile"
+              class="dropdown-item d-flex align-items-center"
+              href="#"
+              data-mdb-toggle="modal"
+              data-mdb-target="#profile-modal">
+              <span class="material-icons pe-2"> account_circle
+              </span> Profile
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Profile ends here -->
+    </div>
+    
+  </header>
+  <!-- Header End -->
+
+  <!-- Body Content Start -->
+  <main class="d-flex flex-column justify-content-between h-100">
+    <!-- Main Content Start -->
+    <div class="d-flex h-100 position-relative">
+
+      <!-- Sidebar Start -->
+      <div class="col-2 side-nav">
+        <div class="side-nav-content">
+          <!--Greetings Start -->
+          <div class="px-2 mb-3 mt-1 border-dark bg-dark border-start border-5" style="border-radius: 4px;">
+           <div class="p-0 m-0 dx-text fw-bold d-flex flex-column">
+            <small>
+              <span class="small">Hey! {{#if emailAddress}}{{firstName}}{{/if}},</span>
+            </small>
+            <small>
+              <span class="greeting-now"></span>
+            </small>
+            </div>
+          </div>
+          <!--Greetings End -->
+
+           <!--Choose file Start -->
+          <div class="p-1 mt-1">
+            <button
+              class="btn btn-block btn-bottom d-flex align-items-center
+              justify-content-between pe-3 ps-3"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#view-dicom-image"
+              aria-expanded="false"
+              aria-controls="view-dicom-image">
+              View Dicom Image
+              <span class="material-icons">
+                expand_more
+              </span>
+            </button>
+            <div class="collapse" id="view-dicom-image">
+              <form id="form" method="POST" enctype="multipart/form-data">
+                <div class="d-flex justify-content-center fade-me-in">
+                  <label class="btn btn-block btn-bottom d-flex flex-column
+                    align-items-center justify-content-center text-white"
+                    for="selectFile">
+                    <span class="material-icons">
+                      cloud_upload
+                    </span>&nbsp;Choose Image
+                  </label>
+                  <input id="selectFile" type="file" accept=".dcm"
+                    name="fileToUpload" hidden />
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--Choose file End -->
+
+
+          <!-- AI Analysis Start -->
+          <div class="p-1 mt-1">
+            <button
+              class="btn btn-block btn-bottom d-flex align-items-center
+              justify-content-between pe-3 ps-3"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#ai-analysis"
+              aria-expanded="false"
+              aria-controls="ai-analysis">
+              AI Analysis
+              <span class="material-icons">
+                expand_more
+              </span>
+            </button>
+            <div class="collapse" id="ai-analysis">
+
+              <!--display image diagnosed Start -->
+              <div class="p-1 mt-2">
+                <div class="w-100" id="input_image_container" style="display: none;">
+                  <img src="#" class="img-fluid" id="input_image">
+                </div>
+              </div>
+              <!--display image diagnosed End -->
+
+              <div class="p-2">
+                <div class="dropdown d-flex justify-content-center p-1">
+                  <button
+                    class="btn btn-box mt-3 select-model-btn d-flex justify-content-center align-items-center dropdown-toggle fade-me-in"
+                    type="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false" disabled>
+                    <span class="material-icons pe-2">
+                      psychology
+                    </span>
+                    Load AI Model
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-dark w-100 p-2">
+                    <a class="dropdown-item" href="#">Chest</a>
+                    <div class="dropdown-divider border-2 border-dark m-0"></div>
+                    <a class="dropdown-item" href="#">Brain</a>
+                    <div class="dropdown-divider border-2 border-dark m-0"></div>
+                    <a class="dropdown-item" href="#" onclick="predict_emotion()">Lungs</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- AI Analysis End -->
+
+          <!-- Collaborative Radiology Start -->
+          <div class="p-1 mt-1">
+            <button
+              class="btn btn-block btn-bottom d-flex align-items-center
+              justify-content-between pe-3 ps-3"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#collaborative-radiology"
+              aria-expanded="false"
+              aria-controls="collaborative-radiology">
+              Collaborative Radiology
+              <span class="material-icons">
+                expand_more
+              </span>
+            </button>
+            <div class="collapse" id="collaborative-radiology">
+              <!-- Video Call Wrapper Start -->
+              <div class="d-flex flex-column mt-2">
+
+                <!-- Start Video Call Button -->
+                <button title="Start Call" class="btn btn-box m-2
+                  d-flex justify-content-center
+                  align-items-center start-meeting-btn fade-me-in"
+                  id="start-meeting-btn" data-mdb-toggle="modal"
+                  data-mdb-target="#start-meeting-modal">
+                  <span class="material-icons pe-2">
+                    wifi_calling_3
+                  </span>Start Call
+                </button>
+                <!--Start Video Call Button -->
+
+                <!-- Join Call Button  Start-->
+                <button title="Join Call" class="btn btn-box m-2 d-flex
+                  justify-content-center
+                  align-items-center join-meeting-btn fade-me-in"
+                  id="join-meeting-btn"
+                  data-mdb-toggle="modal"
+                  data-mdb-target="#join-meeting-modal">
+                  <span class="material-icons pe-2">
+                    phone_forwarded
+                  </span>Join Call
+                </button>
+                <!--Join Call Button End-->
+
+                <!-- Scheduled Call Button  Start-->
+                <button title="Scheduled Call" class="btn btn-box m-2 d-flex
+                  justify-content-center
+                  align-items-center scheduled-meeting-btn fade-me-in"
+                  id="join-meeting-btn"
+                  data-mdb-toggle="modal"
+                  data-mdb-target="#scheduled-meeting-modal">
+                  <span class="material-icons pe-2">
+                  perm_phone_msg
+                  </span>Scheduled Calls
+                </button>
+                <!--Scheduled Call Button End-->
+
+                <!-- Stop Call Button  Start-->
+                <button title="Leave Call" class="btn btn-danger d-none m-2
+                  d-flex
+                  justify-content-center
+                  align-items-center leave-meeting-btn fade-me-in"
+                  id="leave-meeting-btn"
+                  data-mdb-toggle="modal"
+                  data-mdb-target="#leave-meeting-modal"
+                  onclick="">
+                  <span class="material-icons">
+                    logout
+                  </span>&nbsp;&nbsp;Leave Call
+                </button>
+                <!--Stop Call Button End-->
+
+                <!-- Video Display Wrapper Start-->
+                <div class="video-wrapper d-none"
+                  id="video-call-wrapper">
+                  <div class="local-video video-div mt-3"
+                    id="local-video-wrapper">
+                    <h6 class="local-user-name p-1 text-truncate"></h6>
+                    <video muted id="local-video" class="w-100 h-100"
+                      autoplay></video>
+                  </div>
+
+                  <div class="remote-video video-div mt-3 d-none"
+                    id="remote-video-wrapper">
+                    <h6 class="remote-user-name p-1 text-truncate"></h6>
+                    <video muted class="w-100 h-100"
+                      autoplay></video>
+                    <audio autoplay controls class="hide"></audio>
+                  </div>
+                </div>
+                <!-- Video Display Wrapper End -->
+
+              </div>
+              <!-- Video Call Wrapper End -->
+            </div>
+          </div>
+          <!-- Collaborative Radiology End -->
+
+          <!-- Contact List Start -->
+          <div class="p-1 mt-1">
+            <button
+              class="btn btn-block btn-bottom d-flex align-items-center
+              justify-content-between pe-3 ps-3"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#contact-list"
+              aria-expanded="false"
+              aria-controls="contact-list">
+              My Contacts
+              <span class="material-icons">
+                expand_more
+              </span>
+            </button>
+            <div class="collapse position-relative overflow-auto fade-me-in" id="contact-list" style="max-height:50vh;">
+              {{#if friendList}}
+              {{#each friendList}}
+              <div class="d-flex justify-content-start align-items-center participants
+                  border-2 border-dark border-bottom">
+                  <a class="p-1">
+                      <img class="rounded-5
+                          shadow-4" src="/images/image_placeholder.jpg"
+                          alt="Avatar" style="width: 30px; height: 30px;">
+                      <span class="badge bg-success badge-dot"></span>
+                  </a>
+                  <a
+                  class="flex-fill p-1"
+                  href="#"
+                  data-mdb-toggle="modal"
+                  data-mdb-target="#schedule-meeting-modal"
+                  onclick="showScheduleModal('{{this.frnds-full-name}}', '{{this.frnds-email-address}}')">
+                    <h6 class="m-0 user-name dx-text ms-1 fw-normal text-capitalize text-truncate">{{this.frnds-full-name}}</h6>
+                  </a>
+              </div>
+              {{/each}}
+              <div class="d-flex justify-content-start flex-column align-items-center
+                  border-2 border-dark">
+                  <button
+                    class="btn m-2 p-1 btn-box w-100 d-flex justify-content-center align-items-center"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#add-friend-modal"
+                    id=""
+                    type="button"
+                  >
+                    <span class="material-icons pe-3">
+                    person_add_alt
+                    </span>
+                    Add contact
+                  </button>
+              </div>
+              {{else}}
+                <div class="d-flex justify-content-start flex-column align-items-center
+                  border-2 border-dark">
+                  <h6 class="p-3 m-0 user-name text-muted text-capitalize">No contacts yet</h6>
+                  <button
+                    class="btn m-1 btn-box d-flex justify-content-between align-items-center"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#add-friend-modal"
+                    id=""
+                    type="button"
+                  >
+                    <span class="material-icons pe-3">
+                    person_add_alt
+                    </span>
+                    Add contact
+                  </button>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+          <!-- Contact List End -->
+
+        </div>
+      </div>
+      <!-- Sidebar End -->
+
+      <!-- Canvas Area Start -->
+      <div class="col-10 p-1 d-flex flex-column align-items-stretch">
+        <div class="rounded h-100 dx-border" style="background-color: black;
+          position:relative; overflow:hidden;" >
+
+          <!--Preview Image Data Start -->
+          <div class="d-flex flex-column justify-content-between h-100 p-3 d-none"
+            id="image-data"
+            style="font-size: 0.7rem; position: absolute; z-index:50;">
+            <span class="text-white">
+              <p data-dicom="x00100010" id="p-name" class="p-0 m-0"></p>
+              <p data-dicom="x00100020" id="p-id" class="p-0 m-0"></p>
+              <p data-dicom="x00100030" id="p-dob" class="p-0 m-0"></p>
+              <p data-dicom="x00100040" id="p-sex" class="p-0 m-0"></p>
+            </span>
+            <span class="text-white">
+              <p data-dicom="x00080060" id="sd-modality" class="p-0 m-0"></p>
+            </span>
+          </div>
+          <div
+            class="d-flex flex-column justify-content-between h-100 p-3 d-none"
+            id="image-data2"
+            style="font-size: 0.7rem; position: absolute; right: 0; z-index:50;">
+            <span class="text-white">
+              <p data-dicom="x00080020" id="sd-date" class="p-0 m-0"></p>
+              <p data-dicom="x00080030" id="sd-time" class="p-0 m-0"></p>
+            </span>
+          </div>
+          <!--Preview Image Data End -->
+
+          <!--Output mask Start -->
+          <div
+            class="h-100 w-100 d-none position-absolute d-flex justify-content-center align-items-center"
+            id="output-mask-wrapper"
+            style="z-index:90;">
+            <canvas id="output-mask" style="display:none; opacity:0.8;"></canvas>
+          </div>
+          <!--Output mask End -->
+
+          <!-- Loader Start -->
+          <div
+            class="position-absolute h-100 w-100 bg-dark d-none mask-loader d-flex justify-content-center align-items-center"
+            style="opacity: 0.7; z-index:90;">
+            <div class="spinner-border text-light" style="width: 3rem; height: 3rem;" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <!-- Loader End -->
+
+          <!-- Dicom Image Data Start -->
+          <div
+            class="position-absolute d-none p-2 pt-4 d-flex flex-column justify-content-center"
+            style="right:0; z-index: 95; cursor:move; min-width: 18vw;"
+            id="meta-data">
+                <!-- Meta Data Button -->
+                <button
+                    type="button"
+                    title="Hide/Show Meta Data"
+                    class="btn btn-sm btn-box w-25 d-flex
+                    align-items-center justify-content-center"
+                    onclick="toggleMetaData('meta-data-section')">
+                    <span class="material-icons" id="eye-on">
+                    visibility
+                    </span>
+                    <span class="material-icons d-none" id="eye-off">
+                      visibility_off
+                    </span>
+                </button>
+                <!-- Meta Data Button -->
+
+                <div class="border d-none border-dark h-background mt-2" id="meta-data-section">
+                <div class="p-3" style="font-size: 0.7rem;">
+                  <!-- Patient Info Start -->
+                  <span class="patient-info">
+                    <span class="text-white d-flex
+                      justify-content-between">
+                      Patient Name: <p data-dicom="x00100010" id="p-name" class="p-0 m-0">Jonathan
+                        G.</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Patient ID: <p  data-dicom="x00100020" id="p-id" class="p-0 m-0">556342B</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Patient Birth Date: <p data-dicom="x00100030" id="p-dob" class="p-0
+                        m-0">25-October-1994</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Patient Sex: <p data-dicom="x00100040" id="p-sex" class="p-0 m-0">M</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Patient Age: <p data-dicom="x00100030" id="p-age" class="p-0 m-0">28</p>
+                    </span>
+                  </span>
+                  <!-- Patient Info End -->
+                  <hr>
+                  <!-- Study Info Start -->
+                  <span class="study-info">
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Study Date: <p data-dicom="x00080020" id="sd-date" class="p-0 m-0">25-October-1994</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Study Time: <p data-dicom="x00080030" id="sd-time" class="p-0 m-0">14:19:17</p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Study ID: <p data-dicom="x00200010" id="sd-id" class="p-0 m-0"></p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Study Description: <p data-dicom="x00081030" id="sd-description" class="p-0 m-0"></p>
+                    </span>
+                  </span>
+                  <!-- Study Info End -->
+                  <hr>
+                  <!-- Series Info Start -->
+                  <span class="series-info">
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Series Date: <p data-dicom="x00080021" id="sr-date" class="p-0 m-0"></p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Series Time: <p data-dicom="x00080031" id="sr-time" class="p-0 m-0"></p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Series Description: <p data-dicom="x0008103e" id="sr-description" class="p-0
+                        m-0"></p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Series Modality: <p data-dicom="x00080060" id="sr-description" class="p-0
+                        m-0"></p>
+                    </span>
+
+                    <span class="text-white d-flex
+                      justify-content-between mt-2">
+                      Body Part: <p data-dicom="x00180015" id="sr-description" class="p-0
+                        m-0"></p>
+                    </span>
+                  </span>
+                  <!-- Series Info End -->
+                </div>
+                </div>
+          </div>
+          <!-- Dicom Image Data End -->
+
+          <!-- Cornerstone Canvas Element Start -->
+          <div class="h-100 position-relative">
+            <div
+              id="cornerstone-element"
+              class="position-absolute h-100 w-100"
+              data-index="0"
+              oncontextmenu="return false">
+            </div>
+          </div>
+          <!-- Cornerstone Canvas Element End -->
+        </div>
+      </div>
+      <!-- Canvas Area End -->
+
+    </div>
+    <!-- Main Content End -->
+
+    <!-- Bottom Navigation Start -->
+    <div class="h-background fixed-bottom bottom-navigation
+      overflow-visible d-none fade-me-in">
+
+      <!-- Chat Section Start-->
+      <div class="h-background position-absolute chat-box-wrapper d-flex
+        flex-column justify-content-start ps-2 pe-2 overflow-hidden border border-dark">
+
+        <!-- Chat header Start -->
+        <div class="d-flex pe-2 ps-2 pt-2 flex-row
+          justify-content-between border-bottom border-dark
+          border-2 h-background">
+          <button class="btn border-0 p-0 participants-btn">
+            <span class="material-icons">
+              supervisor_account
+            </span>
+            <span class="participants-count badge rounded-pill
+              badge-notification bg-danger"></span>
+          </button>
+          <button class="btn border-0 p-0 chats-btn">
+            <span class="material-icons">
+              insert_comment
+            </span>
+            <span class="chats-count badge rounded-pill badge-notification
+              bg-danger"></span>
+          </button>
+        </div>
+        <!-- Chat header End -->
+
+        <!-- Chat Body Start -->
+        <div class="chat-main-wrapper h-100 position-relative">
+          <div class="mh-100 h-100 d-flex flex-column
+            justify-content-between ">
+            <div class="overflow-auto pb-5">
+              <div class="w-100 p-2"
+                id="message-wrapper"></div>
+            </div>
+
+            <!-- Chat Input Start -->
+            <div class="input-group mb-0 position-sticky h-background"
+              style="bottom:
+              0;">
+              <input
+                type="text"
+                id="input-message"
+                class="form-control"
+                placeholder="Send a message..."
+                aria-label="Send a message"
+                aria-describedby="send-message"
+                style="border: none !important;"
+                />
+              <a class="btn btn-sm" type="button"
+                id="send-message" data-mdb-ripple-color="dark">
+                <span class="material-icons">
+                  send
+                </span>
+              </a>
+            </div>
+            <!-- Chat Input End -->
+          </div>
+        </div>
+        <!-- Chat Body End -->
+
+        <!-- Particpants Section Start -->
+        <div class="participants-main-wrapper h-100 p-2 hide">
+          <div class="particpants-wrapper d-flex justify-content-start
+            flex-column h-100 mh-100">
+            <div class="d-flex justify-content-start align-items-center
+              participants border-2 border-dark
+              border-bottom" id="participants-unique-id">
+              <a class="p-1">
+                <img class="rounded-5 shadow-4"
+                  src="https://mdbootstrap.com/img/Photos/Avatars/man2.jpg"
+                  alt="Avatar" style="width: 30px; height: 30px;">
+                <span class="badge bg-success badge-dot"></span>
+              </a>
+              <h6 class="p-1 m-0 user-name text-white ms-2 fw-normal small
+                text-truncate
+                ">You</h6>
+              <div class="d-flex flex-fill justify-content-end">
+                <button type="button" class="btn border-0 p-0">
+                  <span class="material-icons">
+                    more_vert
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Particpants Section End -->
+
+      </div>
+      <!-- Chat Section End-->
+
+      <!-- Collaborative Buttons Start -->
+      <div class="d-flex flex-row justify-content-between
+        align-items-center p-1">
+
+        <!-- Hide Bottom Navigation Button -->
+        <div class="d-flex position-relative toggle-bottom-btn">
+          <button
+            title="Hide/show pane"
+            class="btn btn-box m-1 h-background"
+            id="toggle-bottom-navigation"
+            type="button"
+            onclick="singletoggleHide('icn-keyboard-arrow-down',
+            'icn-keyboard-arrow-up')">
+
+            <span class="material-icons icn-keyboard-arrow-down fade-me-in"
+              id="icn-keyboard-arrow-down">
+              keyboard_arrow_down
+            </span>
+
+            <span class="material-icons icn-keyboard-arrow-up fade-me-in
+              hide"
+              id="icn-keyboard-arrow-up">
+              keyboard_arrow_up
+            </span>
+          </button>
+        </div>
+        <!-- Hide Bottom Navigation Button -->
+
+        <!-- Video Controls Start -->
+        <div class="d-flex collaborative-btn">
+
+          <!-- Meeting Datails Button Start -->
+          <button
+            title="Meeting details"
+            class="btn m-1 btn-box"
+            data-mdb-toggle="modal"
+            data-mdb-target="#meeting-details-modal"
+            id="meeting-details-btn"
+            type="button">
+            <span class="material-icons">
+            help_outline
+            </span>
+          </button>
+
+          <!-- Mic Button Start -->
+          <button
+            title="Mute/unmute mic"
+            class="btn m-1 btn-box"
+            id="mic-off-on"
+            type="button">
+            <span class="material-icons w-100">
+              mic_none
+            </span>
+          </button>
+
+          <!-- Video Button Start -->
+          <button
+            title="Hide/show video"
+            class="btn btn-sm m-1 btn-box"
+            type="button"
+            id="video-off-on">
+            <span class="material-icons w-100">
+              videocam
+            </span>
+          </button>
+
+          <!-- Screen Share Button -->
+          <button
+            title="Share your screen"
+            class="btn m-1 btn-box"
+            id="screen-off-on"
+            type="button">
+            <span class="material-icons w-100">
+              screen_share
+            </span>
+          </button>
+          <!-- Screen Share Button -->
+
+          <!-- Start Record Button -->
+          <button
+            title="Record your screen"
+            class="btn m-1 btn-box fade-me-in"
+            id="start-record-screen-btn"
+            type="button">
+            <span class="material-icons icn-record">
+              screenshot_monitor
+            </span>
+          </button>
+          <!-- Start Record Button -->
+
+          <!-- Stop Record Button -->
+          <button
+            title="Stop recording"
+            class="btn m-1 btn-box btn-danger fade-me-in d-none"
+            id="stop-record-screen-btn"
+            type="button"
+            title="Record screen">
+            <span class="material-icons icn-stop-record">
+              stop_circle
+            </span>
+          </button>
+          <!-- Stop Record Button -->
+
+          <!-- Screen Shots Button -->
+          <button
+            title="Take screenshots"
+            class="btn m-1 btn-box"
+            id="screen-shot-btn"
+            type="button">
+            <span class="material-icons">
+            center_focus_weak
+            </span>
+          </button>
+          <!-- Screen Shots Button -->
+
+          <!-- Chats Button Start -->
+          <button
+            title="Chats"
+            class="btn m-1 btn-box position-relative"
+            id="toggle-chat-wrapper"
+            type="button"
+            onclick="showCounter('messages-count')">
+            <span class="material-icons chat" id="chat">
+              chat
+            </span>
+            <span class="position-absolute top-0 start-100 translate-middle
+              p-2 bg-danger border border-dark rounded-circle messages-count
+              d-none fade-me-in">
+            </span>
+          </button>
+          <!-- Chats Button End -->
+
+          <!-- Attach File Button Start -->
+          <button
+            title="Send files"
+            class="btn m-1 btn-box position-relative"
+            data-mdb-toggle="modal"
+            data-mdb-target="#attach-file-modal"
+            id="toggle-chat-wrapper"
+            type="button"
+            onclick="showCounter('attachment-count')">
+            <span class="material-icons">
+              attachment
+            </span>
+            <span class="position-absolute top-0 start-100 translate-middle
+              p-2 bg-danger border border-dark rounded-circle
+              attachment-count d-none fade-me-in">
+            </span>
+          </button>
+
+          <!-- Fullscreen Button Start -->
+          <button
+            title="Go fullscreen"
+            class="btn m-1 btn-box enable-fullsreen"
+            type="button"
+            onclick="singletoggleHide('icn-fullscreen', 'icn-fullscreen-exit')">
+            <span class="material-icons icn-fullscreen"
+              id="icn-fullscreen">
+              open_in_full
+            </span>
+            <span class="material-icons hide
+              icn-fullscreen-exit"
+              id="icn-fullscreen-exit">
+              close_fullscreen
+            </span>
+          </button>
+
+        </div>
+        <!-- Video Controls End -->
+      </div>
+      <!-- Collaborative Buttons End -->
+
+    </div>
+    <!-- Bottom Navigation End -->
+
+  </main>
+  <!-- Body Content End -->
+  
+  <!-- Help Modal Start -->
+  <div class="modal fade" id="help-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">DICOM-X SHORTCUTS</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+          <div class="create-wrapper container-fluid">
+            <div class="thumbnail col-sm-12">
+              <legend class="text-md">Mouse Pad</legend>
+              <table class="table table-dark">
+                <tbody>
+                  <tr>
+                    <td>Left click + mouse drag</td>
+                    <td>Move image</td>
+                  </tr>
+                  <tr>
+                    <td>Right click + mouse drag</td>
+                    <td>Pan and Zoom</td>
+                  </tr>
+                  <tr>
+                    <td>Mouse wheel</td>
+                    <td>Zoom in/out</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <hr>
+        <legend class="text-md">Keyboard</legend>
+        <table class="table table-dark">
+          <tbody>
+            <tr>
+              <td>CTRL + </td>
+              <td>Move image</td>
+            </tr>
+            <tr>
+              <td>CTRL + </td>
+              <td>Pan and Zoom</td>
+            </tr>
+            <tr>
+              <td>CTRL + </td>
+              <td>Zoom in/out</td>
+            </tr>
+          </tbody>
+        </table> -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top border-dark border-1 pt-2 pb-2">
+          <button type="button" class="btn btn-sm btn-box"
+            data-mdb-dismiss="modal">Got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Help Modal End -->
+
+  <!-- Start Meeting Modal -->
+  <div class="modal fade" id="start-meeting-modal"
+    data-mdb-backdrop="static"
+    data-mdb-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Start Call</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+          <h6>Your name</h6>
+          <div class="input-group mb-3 d-flex flex-column">
+            <input
+              type="text"
+              id="start-fullname-input"
+              class="form-control form-control-sm start-fullname-input
+              w-100"
+              style="border: none;"
+              value="{{#if emailAddress}}{{firstName}} {{lastName}}{{/if}}"
+              placeholder="John Dave Harrison"/>
+            <p class="form-label start-fullname-label"> </p>
+          </div>
+          <h6>Meeting ID</h6>
+          <div class="input-group">
+            <input
+              type="text"
+              id="start-meeting-id-input"
+              class="form-control form-control-sm start-meeting-id"
+              style="border: none;"
+              placeholder="12344675"
+              readonly/>
+              <span class="input-group-text border-0 cursor material-icons" id="copy-btn" onclick="copyText('start-meeting-id-input',
+              'copy-btn')">content_copy</span>
+          </div>
+          <label class="form-label start-meeting-id-label d-none"></label>
+        </div>
+        <div class="modal-footer border-top border-dark border-1 pt-2 pb-2">
+          <button type="button" class="btn btn-sm btn-box"
+            data-mdb-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm btn-box
+            start-connect-meeting-btn">Connect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Start Meeting Modal -->
+
+  <!-- Join Meeting Modal -->
+  <div class="modal fade" id="join-meeting-modal"
+    data-mdb-backdrop="static"
+    data-mdb-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Join Call</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+          <h6>Your name</h6>
+          <div class="input-group mb-3 d-flex flex-column">
+            <input
+              type="text"
+              id="join-fullname-input"
+              class="form-control form-control-sm join-fullname-input w-100"
+              style="border: none;"
+              value="{{#if emailAddress}}{{firstName}} {{lastName}}{{/if}}"
+              placeholder="John Dave Harrison"
+              autofocus />
+            <label class="form-label join-fullname-label"></label>
+          </div>
+          <h6>Meeting ID</h6>
+          <div class="input-group mb-3 d-flex flex-column">
+            <input
+              type="text"
+              id="join-meeting-id-input"
+              class="form-control form-control-sm join-meeting-id-input
+              w-100"
+              style="border: none;"
+              placeholder="xxxx-xxxx-xxxx"/>
+            <label class="form-label join-meeting-id-label"></label>
+          </div>
+        </div>
+        <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+          <button type="button" class="btn btn-sm btn-box"
+            data-mdb-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm btn-box
+            join-connect-meeting-btn"
+            data-mdb-dismiss="">Connect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Join Meeting Modal -->
+
+  <!-- Scheduled Meeting Modal -->
+  <div class="modal fade" id="scheduled-meeting-modal"
+    data-mdb-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Scheduled Calls</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+            <div class="p-3 d-flex flex-column">
+              <p class="">Your scheduled calls</p>
+            
+              <!-- Scheduled Calls Start Here -->
+              {{#if allMeetings}}
+              {{#each allMeetings}}
+              <p class="text-muted ps-2 border-dark border-bottom border-2 schedule-helper-text">
+                <span class="sc-name chat-text p-e">With {{this.guest-name}}</span> |
+                <span class="sc-date chat-text p-e">{{this.date-time}}</span><br>
+
+                <small>
+                  <span class="chat-text">Meeting ID:</span>
+                  <span class="sc-title chat-text px-1">{{this.meetind-id}}</span><br>
+                  <span class="chat-text">Title:</span>
+                  <span class="sc-title chat-text px-1">{{this.title}}</span><br>
+                  <span class="chat-text">Description:</span>
+                  <span class="sc-meeting-id chat-text px-1">{{this.description}}</span>
+                </small>
+              </p>
+              {{/each}}
+              {{else}}
+               <!-- Helper Text For Scheduled Calls Start Here -->
+              <p class="text-center text-muted p-4 border-dark
+                border border-2 schedule-helper-text">No scheduled calls yet!<br>
+                <small>Your scheduled calls will show here</small>
+              </p>
+              <!-- Helper Text For Scheduled Calls End Here -->
+              {{/if}}
+              <!-- Scheduled Calls End Here -->
+            </div>
+        </div>
+        <div class="modal-footer border-top border-dark border-1 pt-2 pb-2">
+          <button type="button" class="btn btn-sm btn-box"
+            data-mdb-dismiss="modal">Got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scheduled Meeting Modal -->
+
+  <!-- Leave Meeting Modal Start -->
+  <div class="modal fade" id="leave-meeting-modal" tabindex="-1"
+    aria-labelledby="leave-meeting-modal" aria-hidden="true"
+    data-mdb-keyboard="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Leave Call</h6>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6 class="text-center">Are you sure you want to leave this call?</h6>
+        </div>
+        <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+          <button type="button" class="btn btn-sm"
+            data-mdb-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-sm
+            leave-meeting-modal-btn">Leave</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Leave Meeting Modal End -->
+
+  <!-- Attach File Modal Start-->
+  <div class="modal fade" id="attach-file-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6
+            class="modal-title small text-uppercase"
+            id="staticBackdropLabel">
+            Send and receive files</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"
+            onclick="toggleMeetingBtn('start-meeting-btn')"></button>
+        </div>
+        <div
+          class="modal-body overflow-auto" style="max-height: 50vh; min-height: 30vh;">
+          <!-- Pills navs start-->
+          <ul class="nav nav-pills nav-justified mb-3 ms-0" id="ex1"
+            role="tablist">
+            <li class="nav-item p-2" role="presentation">
+              <button
+                class="active btn btn-box btn-block"
+                id="tab-login"
+                data-mdb-toggle="pill"
+                href="#send-files-pills"
+                role="tab"
+                aria-controls="send-files-pills"
+                aria-selected="true">Send a file</button>
+            </li>
+            <li class="nav-item p-2" role="presentation">
+              <button
+                class="btn btn-box btn-block"
+                id="tab-register"
+                data-mdb-toggle="pill"
+                href="#received-files-pills"
+                role="tab"
+                aria-controls="received-files-pills"
+                aria-selected="false">Received files
+                <span class="badge bg-danger ms-2 files-count"></span></button>
+            </li>
+          </ul>
+          <!-- Pills navs end-->
+
+          <!-- Pills content -->
+          <div class="tab-content">
+            <!-- Send File Pane Start Here -->
+            <div class="tab-pane fade show active" id="send-files-pills"
+              role="tabpanel" aria-labelledby="tab-login">
+
+              <!-- Input File Start Here -->
+              <div class="p-4 pb-0 border-dark border border-2 d-flex justify-content-center flex-column">
+                <small class="text-center text-muted pb-3">Choose a file to send here</small>
+
+                 <form enctype="multipart/form-data" ref="uploadFoam"
+                  id="uploadFoam" class="d-flex justify-content-center flex-column">
+
+                  <div class="w-100 d-flex justify-content-center">
+                    <label for="chosen-file" class="text-center btn btn-box mx-2">Choose a file</label>
+                    <!-- Submit button -->
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-box send-file-btn mx-2"
+                      id="inputGroupFile04">
+                      Send
+                      <span class="material-icons small ps-2">
+                        send
+                      </span>
+                    </button>
+                  </div>
+                  <small class="text-center text-muted p-2 pb-0 m-0 validate-file-upload"></small>
+                  
+                  <div class="input-group mb-3">
+                    <input
+                      type="file"
+                      class="form-control form-control-sm
+                      h-background
+                      border-0"
+                      id="chosen-file"
+                      aria-describedby="chosen-file" hidden/>
+                  </div>
+                </form>
+              </div>
+              <!-- Input File End Here -->
+
+              <!-- File Sent Start Here -->
+              <div class="sent-files d-flex flex-column justify-content-start mt-2 d-none">
+              </div>
+              <!-- File Sent Ends Here -->
+            </div>
+            <!-- Send File Pane Ends Here -->
+
+            <!-- Recieved File Pane Start Here -->
+            <div class="tab-pane fade"
+              id="received-files-pills"
+              role="tabpanel"
+              aria-labelledby="tab-register">
+
+              <!-- Helper Text For Recieved Files Start Here -->
+              <p class="text-center text-muted p-4 border-dark
+                border border-2 upload-helper-text">No files
+                yet!<br>
+                <small>Files received will show here</small>
+              </p>
+              <!-- Helper Text For Recieved Files End Here -->
+
+              <!-- File Received Start Here -->
+              <div
+                class="received-files d-flex flex-column
+                justify-content-start d-none">
+              </div>
+              <!-- File Received Ends Here -->
+
+            </div>
+            <!-- Recieved File Pane Ends Here -->
+
+          </div>
+          <!-- Pills content -->
+        </div>
+        <!-- Close Modal Button Starts Here -->
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-box"
+            data-mdb-dismiss="modal">Close</button>
+        </div>
+        <!-- Close Modal Button Ends Here -->
+      </div>
+    </div>
+  </div>
+  <!-- Attach File Modal End-->
+
+  <!-- Record Screen Modal Start -->
+  <div class="modal fade" id="screen-record-modal" tabindex="-1"
+    aria-labelledby="leave-meeting-modal" aria-hidden="true"
+    data-mdb-keyboard="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Screen
+            recording</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+          <p class="text-center small text-muted">Hey!<br>Just before you
+            start, please specify the name of your recording.</p>
+
+          <!-- Name of recording -->
+          <div class="input-group mb-3 d-flex flex-column">
+            <input
+              type="text"
+              id="screen-recording-name"
+              placeholder="myNewRecording..."
+              class="form-control w-100 border-0" required />
+          </div>
+
+          <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+            <button type="button" class="btn btn-sm btn-box"
+              data-mdb-dismiss="modal">Back</button>
+            <button type="button" class="btn btn-sm btn-box
+              screen-record-modal-btn">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Record Screen Modal End -->
+  </div>
+  <!-- Record Screen Modal End -->
+
+  <!-- Screenshots Modal Start -->
+  <div class="modal fade" id="screenshot-modal" tabindex="-1"
+    aria-labelledby="leave-meeting-modal" aria-hidden="true"
+    data-mdb-keyboard="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h6 class="modal-title small text-uppercase" id="staticBackdropLabel">Screen
+            shots</h6>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+          <!-- Name of recording -->
+          <div class="input-group mb-3 d-flex justify-content-center">
+            <img class="screen-data img-fluid"  alt="">
+          </div>
+
+          <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+            <button type="button" class="btn btn-sm btn-box"
+              data-mdb-dismiss="modal">Back</button>
+              <a download="screenshots" id="download-screenshot">
+              <button type="button" class="btn btn-sm btn-box">Download</button>
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Record Screen Modal End -->
+  </div>
+  <!-- Screenshots Modal End -->
+
+  <!-- Add Friend Modal -->
+  <div class="modal fade" id="add-friend-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h5 class="modal-title small text-uppercase" id="staticBackdropLabel">Add to contact</h5>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+              {{#each allUsers}}
+              <div class="d-flex justify-content-start align-items-center participants
+                  border-2 border-dark border-bottom">
+                  <a class="p-1">
+                      <img class="rounded-5
+                          shadow-4" src="https://mdbootstrap.com/img/Photos/Avatars/man2.jpg"
+                          alt="Avatar" style="width: 30px; height: 30px;">
+                      <span class="badge bg-success badge-dot"></span>
+                  </a>
+                  <h6 class="p-1 m-0 user-name
+                      text-white ms-2 fw-normal text-capitalize text-truncate">{{this.first-name}} {{this.last-name}}</h6>
+                  <div class="d-flex flex-fill justify-content-end">
+                    <input
+                      class="form-check-input me-2 border-dark"
+                      type="checkbox"
+                      value="{{this.id}}"
+                      id="{{this.id}}"
+                      name="{{this.id}}"
+                      onchange=addFriend({{this.id}})
+                      aria-describedby="registerCheckHelpText"
+                      />
+                  </div>
+              </div>
+              {{/each}}
+        </div>
+        <form action="/dicom-x" method="post">
+          <input type="hidden" name="added-friends" id="added-friends">
+          <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+            <button type="submit" class="btn btn-sm btn-box add-friend-modal-btn"
+              data-mdb-dismiss="modal" disabled>Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Add Friend Modal -->
+
+  <!-- Schedule Meeting Modal -->
+  <div class="modal fade" id="schedule-meeting-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <form action="/schedule-meeting" method="post">
+          <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+            <h5 class="modal-title small text-uppercase dx-text" id="staticBackdropLabel">Schedule a meeting</h5>
+            <button type="button" class="btn-close btn-box"
+              data-mdb-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body overflow-auto" style="max-height: 50vh;">
+            <h6 class="dx-text">Friends name</h6>
+            <div class="input-group mb-3 d-flex flex-column">
+              <input
+                type="text"
+                id="frnds-fullname-input"
+                name="frnds-fullname-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                placeholder="John Dave Harrison"
+                readonly/>
+            </div>
+            <h6 class="dx-text">Email address</h6>
+            <div class="input-group mb-3 d-flex flex-column">
+              <input
+                type="email"
+                id="frnds-email-address-input"
+                name="frnds-email-address-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                readonly/>
+            </div>
+
+            <h6 class="dx-text">Date and time</h6>
+            <div class="input-group mb-1">
+              <input
+                type="date"
+                id="frnds-schedule-date-input"
+                name="frnds-schedule-date-input"
+                class="form-control form-control-sm"
+                min="2022-01-01"
+                style="border: none;" required/>
+              <span class="input-group-text border-0 material-icons">calendar_month</span>
+               <input
+                type="time"
+                id="time-input-to-format"
+                class="form-control form-control-sm"
+                style="border: none;"
+                onchange="onTimeChange()" required/>
+                <input
+                type="hidden"
+                id="frnds-schedule-time-input"
+                name="frnds-schedule-time-input"/>
+              <span class="input-group-text border-0 material-icons">schedule</span>
+            </div>
+            <label class="form-label frnds-schedule-time-label mb-3"></label>
+
+            <h6 class="dx-text">Meeting ID</h6>
+            <div class="input-group mb-3 d-flex flex-column">
+              <input
+                type="text"
+                id="frnds-meeting-id-input"
+                name="frnds-meeting-id-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                readonly/>
+                <input
+                type="hidden"
+                name="senders-full-name-input"
+                value="Prince Sunday"
+                />
+            </div>
+
+            <h6 class="dx-text">Title</h6>
+            <div class="input-group mb-3 d-flex flex-column">
+              <input
+                type="text"
+                id="frnds-meeting-title-input"
+                name="frnds-meeting-title-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                placeholder="Rewiew meeting..." required/>
+            </div>
+
+            <h6 class="dx-text">Description</h6>
+            <div class="">
+              <textarea
+                class="form-control border-0"
+                id="frnds-meeting-description-input"
+                name="frnds-meeting-description-input"
+                rows="4"
+                placeholder="I want us to review my recent diagnosis together..." required></textarea>
+              <label class="form-label" for="frnds-meeting-description-input"></label>
+            </div>
+          </div>
+          <div class="modal-footer border-top border-dark border-1 pt-2 pb-0 m-0">
+            <button type="button" class="btn btn-sm btn-box" data-mdb-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-box">Send</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <!-- Schedule Meeting Modal -->
+
+  <!-- Meeting Details Modal Start -->
+  <div class="modal fade" id="meeting-details-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+          <h5 class="modal-title small text-uppercase dx-text" id="staticBackdropLabel">Meeting Details</h5>
+          <button type="button" class="btn-close btn-box"
+            data-mdb-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 50vh;">
+
+          <h5 class="mt-2 mb-2 text-muted fw-normal">Catch up meeting</h6>
+          <p class="text-muted small pb-0 mb-1">Please let's meet for a catch up</p>
+
+          <div class="d-flex justify-content-start">
+            <span class="material-icons text-muted pe-2">calendar_month</span>
+            <p class="text-muted small mb-1">2022-09-29 - 01:00</p>
+          </div>
+          <hr>
+          <h6 class="dx-text">Meeting ID</h6>
+          <div class="d-flex">
+            <input
+                type="text"
+                id="meeting-details-id"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                readonly/>
+
+              <span class="input-group-text border-0 cursor material-icons" id="copy-meeting-id" onclick="copyText('meeting-details-id',
+              'copy-meeting-id')">content_copy</span>
+          </div>
+          
+        </div>
+        <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+          <button type="button" data-mdb-dismiss="modal" class="btn btn-sm btn-box">Got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Meeting Details Modal End -->
+
+  <!-- Profile Modal -->
+  <div class="modal fade" id="profile-modal"
+    data-mdb-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content dropdown-menu-dark">
+        <form action="/update-profile" method="post">
+          <div class="modal-header border-bottom border-dark border-1 pt-2 pb-2">
+            <h5 class="modal-title small text-uppercase" id="staticBackdropLabel">My profile</h5>
+            <button type="button" class="btn-close btn-box"
+              data-mdb-dismiss="modal"
+              aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body overflow-auto" style="max-height: 50vh;">
+            <div class="input-group mb-3 d-flex justify-content-center">
+              <div class="rounded-circle bg-image" style="width: 200px; height: 200px;">
+                <img
+                class="img-fluid profile-picture"
+                src="/images/image_placeholder.jpg"
+                alt="Avatar">
+                <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+                  <div class="d-flex flex-column justify-content-end align-items-center h-100">
+                    <label for="profile-picture-input" class="btn btn-sm btn-box mb-2">
+                      <span class="material-icons text-white">edit</span>
+                    </label>
+                    <input type="file" name="profile-picture-input" accept=".png, .jpg" id="profile-picture-input" hidden>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="lead text-white">Personal Info</p>
+            <hr>
+            <h6 class="text-muted">First name</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="text"
+                id="pr-first-name-input"
+                name="pr-first-name-input"
+                value="{{#if emailAddress}}{{firstName}}{{/if}}"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                required/>
+            </div>
+            <h6 class="text-muted">Last name</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="text"
+                id="pr-last-name-input"
+                name="pr-last-name-input"
+                value="{{#if emailAddress}}{{lastName}}{{/if}}"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                required/>
+            </div>
+
+            <h6 class="text-muted">Email address</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="email"
+                id="pr-email-address-input"
+                name="pr-email-address-input"
+                value="{{#if emailAddress}}{{emailAddress}}{{/if}}"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                readonly/>
+            </div>
+            
+            <h6 class="text-muted">Phone number</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="tel"
+                id="pr-phone-number-input"
+                name="pr-phone-number-input"
+                value="{{#if emailAddress}}{{phoneNumber}}{{/if}}"
+                class="form-control form-control-sm w-100"
+                style="border: none;"
+                required/>
+            </div>
+
+            <p class="lead text-white mt-5">Change Password</p>
+            <hr>
+            <h6 class="text-muted">Old Password</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="password"
+                id="pr-old-password-input"
+                name="pr-old-password-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"/>
+            </div>
+
+            <h6 class="text-muted">New Password</h6>
+            <div class="input-group mb-2 d-flex flex-column">
+              <input
+                type="password"
+                id="pr-new-password-input"
+                name="pr-new-password-input"
+                class="form-control form-control-sm w-100"
+                style="border: none;"/>
+            </div>
+          </div>
+          <div class="modal-footer border-bottom border-dark border-1 pt-2 pb-2">
+            <button type="button" class="btn btn-sm btn-box"  data-mdb-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-box">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Profile Modal -->
+</div>
+<!-- End your project here -->

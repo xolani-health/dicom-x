@@ -1,0 +1,112 @@
+
+<!-- Body Content Start -->
+<main class="d-flex flex-column justify-content-start align-items-center
+	overflow-auto" style="height: 100vh;">
+
+	<!-- DICOM-X Logo -->
+	<div class="col-2 d-flex dx-logo-wrapper align-items-center pt-2">
+		<a href="#" class="ripple p-3">
+			<img src="/images/dicomx-logo-color.png"
+				alt="dicom-x"
+				class="img-fluid" />
+		</a>
+	</div>
+	<!-- DICOM-X Logo -->
+
+	<div class="d-flex justify-content-center">
+		{{#if message.success}}
+			<p class="alert small alert-success p-3">{{message.success}}</p>
+		{{/if}}
+		{{#if message.error}}
+			<p class="alert small alert-danger p-3">{{message.error}}</p>
+		{{/if}}
+	</div>
+
+	<!-- Main Content Start -->
+	<div class="border p-5 pt-3 border border-2 border-dark rounded-9
+		hover-shadow
+		h-background
+		fade-me-in">
+		<!-- Form Wrapper -->
+		<div class="tab-content">
+			<div class="tab-pane fade show active overflow-auto" id="pills-login"
+				role="tabpanel"
+				aria-labelledby="tab-login">
+				<form action="/" method="POST" id="signinFoam">
+					<p class="lead text-white">Sign in</p>
+					<!-- Email input -->
+					<div class="form-group mb-3 input-group-lg">
+						<label class="form-label small text-muted p-0 m-0" for="loginEmail">Email</label>
+						<input
+							type="email"
+							id="loginEmail"
+							name="loginEmail"
+							value="{{#if data.loginEmail}}{{data.loginEmail}}{{/if}}"
+							class="form-control w-100
+							border-0 {{#if message.loginEmail}}error-focus{{/if}}"
+							placeholder="{{#if message.loginEmail}}{{message.loginEmail}}{{else}}johnsteven@mail.com{{/if}}"
+							/>
+							<span class="error-text email-error-text text-danger">{{#if message.loginEmail}}{{message.loginEmail}}{{/if}}</span>
+					</div>
+					<!-- Email input -->
+
+					<!-- Password input -->
+					<div class="form-group mb-2 input-group-lg">
+						<label class="form-label small text-muted p-0 m-0" for="loginPassword">Password</label>
+						<input
+							type="password"
+							id="loginPassword"
+							name="loginPassword"
+							value="{{#if data.loginPassword}}{{data.loginPassword}}{{/if}}"
+							class="form-control w-100
+							border-0 {{#if message.loginPassword}}error-focus{{/if}}"
+							placeholder="{{#if message.loginPassword}}{{message.loginPassword}}{{else}}xxxxxxxxx{{/if}}"
+							/>
+							<span class="error-text password-error-text text-wrap text-danger">{{#if message.loginPassword}}{{message.loginPassword}}{{/if}}</span>
+					</div>
+					<!-- Password input -->
+
+					<div class="mb-3 pt-3">
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- Checkbox -->
+							<div class="form-check m-0">
+								<input
+									class="form-check-input me-2 border-dark"
+									type="checkbox"
+									value=""
+									id="loginCheck"
+									checked
+									aria-describedby="registerCheckHelpText"
+									/>
+								<label class="form-check-label small text-muted mb-1"
+									for="loginCheck">
+									Remember me
+								</label>
+							</div>
+							<a href="#" class="text-muted small ps-5 m-0">Forgot password?</a>
+						</div>
+					</div>
+
+					<!-- Submit button -->
+					<button type="submit" class="btn btn-box btn-block mb-4">Sign in</button>
+					<!-- Register buttons -->
+					<div class="text-center">
+						<p class="small p-0 m-0">Not a member? <a
+								href="/signup">Register</a></p>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- Form Wrapper -->
+
+	</div>
+	<!-- Copyright Text -->
+	<p class="text-muted small pt-4">Copyright
+		© 2022 Xolani Health.
+		All
+		rights
+		reserved.</p>
+	<!-- Copyright Text -->
+
+</main>
+<!-- Body Content End -->
