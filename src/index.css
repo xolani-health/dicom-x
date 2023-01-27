@@ -7,3 +7,7 @@ body,
 #root {
   @apply h-full w-full;
 }
+
+body {
+  @apply bg-black/90 p-5;
+}
